@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "Student Page";
+    Layout = "../Shared/_DashboardLayout";
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            overflow-y: auto;
+            width: 240px; /* Adjust as needed */
+            padding-top: 56px; /* Adjust for navbar height */
+            background-color: #343a40; /* Adjust background color */
+            color: #fff; /* Text color */
+            border-right: 1px solid #dee2e6;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .sidebar-menu {
+            margin-top: 20px;
+            padding: 0;
+        }
+
+            .sidebar-menu li {
+                list-style: none;
+            }
+
+                .sidebar-menu li a {
+                    display: block;
+                    padding: 10px 20px;
+                    color: #fff;
+                    transition: all 0.3s ease;
+                }
+
+                    .sidebar-menu li a:hover {
+                        background-color: #495057;
+                        text-decoration: none;
+                    }
+
+                .sidebar-menu li.active a {
+                    background-color: #6c757d;
+                }
+
+        .card-link {
+            color: #343a40;
+            transition: all 0.3s ease;
+        }
+
+            .card-link:hover {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+        .card {
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+            .card:hover {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+            }
+
+        .card-body {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

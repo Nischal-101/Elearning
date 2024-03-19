@@ -1,0 +1,172 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "./_Layout";
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            overflow-y: auto;
+            width: 240px; /* Adjust as needed */
+            padding-top: 56px; /* Adjust for navbar height */
+            background-color: #343a40; /* Adjust background color */
+            color: #fff; /* Text color */
+            border-right: 1px solid #dee2e6;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .sidebar-menu {
+            margin-top: 20px;
+            padding: 0;
+        }
+
+            .sidebar-menu li {
+                list-style: none;
+            }
+
+                .sidebar-menu li a {
+                    display: block;
+                    padding: 10px 20px;
+                    color: #fff;
+                    transition: all 0.3s ease;
+                }
+
+                    .sidebar-menu li a:hover {
+                        background-color: #495057;
+                        text-decoration: none;
+                    }
+
+                .sidebar-menu li.active a {
+                    background-color: #6c757d;
+                }
+
+        .card-link {
+            color: #343a40;
+            transition: all 0.3s ease;
+        }
+
+            .card-link:hover {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+        .card {
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+            .card:hover {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+            }
+
+        .card-body {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="d-flex">
+        <div class="container-fluid w-25">
+            <div class="row">
+                <div class="col-md-3 col-sm-4 col-xs-12 p-0 sidebar">
+                   @*  <div class="sidebar-header">
+                        <h3>eLearning</h3>
+                    </div> *@
+
+                    <div class="sidebar-header">
+                        <h3><i class="fas fa-graduation-cap"></i> eLearning</h3>
+                    </div>
+
+
+                    <ul class="sidebar-menu">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="@Url.Action("Index", "Home")">
+                                <i class="fas fa-home mr-2"></i> Home
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListStudent", "Student")">
+                                <i class="fas fa-user-graduate mr-2"></i> Student
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListCourse", "Course")">
+                                <i class="fas fa-book mr-2"></i> Course
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListInstructor", "Instructor")">
+                                <i class="fas fa-chalkboard-teacher mr-2"></i> Instructor
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListLesson", "Lesson")">
+                                <i class="fas fa-file-alt mr-2"></i> Lesson
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListEnrollment", "Enrollment")">
+                                <i class="fas fa-users mr-2"></i> Enrollment
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ListProgress", "Progress")">
+                                <i class="fas fa-shield-alt mr-2"></i> Progress
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("PopularCourse", "Enrollment")">
+                                <i class="fas fa-chart-line mr-2"></i> Top 3 Course
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("SearchByInstructor", "Instructor")">
+                                <i class="fas fa-lock mr-2"></i> Search Instructor` 
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-100 h-100">
+            @RenderBody()
+        </div>
+    </div>
+    @RenderSection("Scripts", required: false)
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>

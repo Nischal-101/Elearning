@@ -1,0 +1,88 @@
+﻿@using DatabaseCW.Models;
+@{
+    ViewData["Title"] = "Lesson Details";
+    ProgressModel sqldata = ViewBag.sqldata;
+    Layout = "../Shared/_DashboardLayout";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12 text-center mb-4">
+            <h1 class="display-4">Progress List</h1>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mb-3">
+        <!-- Search bar and button -->
+        <div class="row mb-4 justify-content-center">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                    <button id="searchBtn" class="btn btn-success" type="button"><i class="fas fa-search"></i> Search</button>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <a href="@Url.Action("AddProgress", "Progress")" class="btn btn-success btn-block"><i class="fas fa-plus"></i> Add Progress</a>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Course</th>
+                        <th>Lesson</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="progressTableBody">
+                    @foreach (var progress in sqldata.ProgressList)
+                    {
+                        <tr>
+                            <td>@progress.StudentName</td>
+                            <td>@progress.CourseName</td>
+                            <td>@progress.LessonTitle</td>
+                            <td>
+                                @if (progress.LessonStatus == "Completed")
+                                {
+                                    <span class="badge badge-success">@progress.LessonStatus</span>
+                                }
+                                else if (progress.LessonStatus == "In Progress")
+                                {
+                                    <span class="badge badge-warning">@progress.LessonStatus</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-secondary">@progress.LessonStatus</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Search functionality
+    document.getElementById("searchBtn").addEventListener("click", function () {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput").value.toUpperCase();
+        table = document.getElementById("progressTableBody");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0]; // Adjust index to the column you want to search in
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(input) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
+</script>

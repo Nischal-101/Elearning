@@ -1,0 +1,97 @@
+﻿@model List<DatabaseCW.Models.CourseModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "../Shared/_DashboardLayout";
+}
+
+<style>
+    /* Custom CSS for the cards */
+    .funny-card {
+        border: 2px solid #dee2e6; /* Border color */
+        background-color: #f8f9fa; /* Background color */
+    }
+
+        .funny-card .card-title {
+            color: #343a40; /* Title color */
+        }
+
+        .funny-card .card-text {
+            color: #6c757d; /* Text color */
+        }
+</style>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Top 3 Courses by Enrollment</h2>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <canvas id="enrollmentBarChart" style="height: 400px;"></canvas>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        @foreach (var course in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card funny-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@course.CourseName</h5>
+                        <p class="card-text">Enrollment Count: @course.EnrollmentCount</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var enrollmentCounts = @Html.Raw(Json.Serialize(Model.Select(c => c.EnrollmentCount)));
+        var courseTitles = @Html.Raw(Json.Serialize(Model.Select(c => c.CourseName)));
+
+        var ctx = document.getElementById('enrollmentBarChart').getContext('2d');
+        var enrollmentBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: courseTitles,
+                datasets: [{
+                    label: 'Enrollment Count',
+                    data: enrollmentCounts,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMax: Math.max(...enrollmentCounts) + 10
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Top Courses by Enrollment',
+                        fontSize: 18,
+                        padding: 20
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 20,
+                        right: 20,
+                        top: 0,
+                        bottom: 20
+                    }
+                },
+                responsive: true
+            }
+        });
+    </script>
+}

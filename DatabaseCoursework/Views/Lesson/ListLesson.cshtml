@@ -1,0 +1,75 @@
+﻿@using DatabaseCW.Models;
+
+@{
+    ViewData["Title"] = "Lesson Details";
+    LessonModel sqldata = ViewBag.sqldata;
+    Layout = "../Shared/_DashboardLayout";
+
+}
+
+<div class="text-center">
+    <h1 class="display-4">List of Lesson</h1>
+</div>
+
+ <!-- Search bar and button -->
+    <div class="row mb-3" style="max-width: 800px; margin: 0 auto;">
+        <div class="col-md-6 mb-2">
+            <input type="text" id="searchInput" class="form-control" style="width: 100%;" placeholder="Search...">
+        </div>
+    <div class="col-md-3 mb-2">
+        <button id="searchBtn" class="btn btn-success w-100"><i class="fas fa-search"></i> Search</button>
+    </div>
+    <div class="col-md-3 mb-2">
+        <a href="@Url.Action("AddLesson", "Lesson")" class="btn btn-success w-100"><i class="fas fa-plus"></i> Add Lesson</a>
+    </div>
+    </div>
+
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+			<th scope="col">Lesson ID</th>
+			<th scope="col">Course</th>
+            <th scope="col">Lesson Title</th>            
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var lesson in sqldata.lessons)
+        {
+            <tr>
+				<td>@lesson.LessonId</td>
+				<td>@lesson.CourseName</td>
+                <td>@lesson.LessonTitle</td>
+
+                <td>
+                    <a href="@Url.Action("GetLessonById", "Lesson", new { id = lesson.LessonId })" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#del-@lesson.LessonId">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </td>
+            </tr>
+            <!-- Modal -->
+            <div class="modal fade" id="del-@lesson.LessonId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <dl class="dl-horizontal">
+                                <dt>lesson Name:</dt>
+                                <dd>@lesson.LessonTitle</dd>
+                                
+                            </dl>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <a href="@Url.Action("DeleteConfirmed", "lesson", new { id = lesson.LessonId })" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </tbody>
+</table>

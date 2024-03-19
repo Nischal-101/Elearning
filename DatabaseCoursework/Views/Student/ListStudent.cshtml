@@ -1,0 +1,119 @@
+﻿@using DatabaseCW.Models;
+
+@{
+    StudentModel sqldata = ViewBag.sqldata;
+    ViewData["Title"] = "Students Details";
+    Layout = "../Shared/_DashboardLayout";
+}
+
+<style>
+    .table {
+        width: 100%; /* Adjust table width as needed */
+        font-size: 14px; /* Decrease font size */
+    }
+</style>
+
+<div class="container mt-5">
+    <h1 class="display-4 text-center mb-4">List of Students</h1>
+
+    <!-- Search bar and button -->
+    <div class="row mb-4 justify-content-center">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                <button id="searchBtn" class="btn btn-success" type="button"><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <a href="@Url.Action("AddStudent", "Student")" class="btn btn-primary btn-block"><i class="fas fa-user-plus"></i> Add Student</a>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Student Name</th>
+                    <th>Contact</th>
+                    <th>DOB</th>
+                    <th>Email</th>
+                    <th>Country</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="studentTableBody">
+                @foreach (var student in sqldata.StudentList)
+                {
+                    <tr>
+                        <td>@student.StudentName</td>
+                        <td>@student.Contact</td>
+                        <td>@student.DOB.ToString("yyyy-MM-dd")</td>
+                        <td>@student.Email</td>
+                        <td>@student.Country</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="@Url.Action("GetStudentById", "Student", new { id = student.StudentId })" class="btn btn-primary btn-sm me-1"><i class="fas fa-edit"></i> Edit</a>
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#del-@student.StudentId"><i class="fas fa-trash-alt"></i> Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="del-@student.StudentId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to delete <strong>@student.StudentName</strong>?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <a href="@Url.Action("DeleteConfirmed", "Student", new { id = student.StudentId })" class="btn btn-danger">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <!-- No results found message -->
+                <tr id="noResults" style="display: none;">
+                    <td colspan="6" class="text-center" style="color:red">No results found!</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Search functionality
+    document.getElementById("searchBtn").addEventListener("click", function () {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput").value.toUpperCase();
+        table = document.getElementById("studentTableBody");
+        tr = table.getElementsByTagName("tr");
+        var found = false; // Flag to check if any result is found
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0]; // Adjust index to the column you want to search in
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(input) > -1) {
+                    tr[i].style.display = "";
+                    found = true;
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+
+        // Display "No results found" message if no matching data is found
+        var noResultsRow = document.getElementById("noResults");
+        if (!found) {
+            noResultsRow.style.display = "";
+        } else {
+            noResultsRow.style.display = "none";
+        }
+    });
+</script>

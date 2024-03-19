@@ -1,0 +1,98 @@
+﻿@using DatabaseCW.Models;
+
+@{
+    ViewData["Title"] = "Enrollment Details";
+    EnrollmentModel sqldata = ViewBag.sqldata;
+    Layout = "../Shared/_DashboardLayout";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Enrollment</h1>
+</div>
+
+@* <!-- Search bar and button -->
+<div class="row mb-3" style="max-width: 800px; margin: 0 auto;">
+    <div class="row mb-3">
+        <form method="get" action="@Url.Action("ListEnrollment", "Enrollment")">
+            <div class="row mb-3">
+                <div class="col">
+                    <input type="text" name="searchName" class="form-control" placeholder="Search by Student Name">
+                </div>
+                <div class="col-auto">
+                    <button id="searchBtn" class="btn btn-success">Search</button>
+                </div>
+            </div>
+        </form>
+    <div class="col-md-3 mb-2">
+        <a href="@Url.Action("AddEnrollment", "Enrollment")" class="btn btn-success w-100"><i class="fas fa-plus"></i> Enroll</a>
+    </div>
+</div> *@
+
+<div class="row mb-3" style="max-width: 800px; margin: 0 auto;">
+    <form method="get" action="@Url.Action("ListEnrollment", "Enrollment")">
+        <div class="row mb-3">
+            <div class="col">
+                <input type="text" name="searchName" class="form-control" placeholder="Search by Student Name">
+            </div>
+            <div class="col-auto">
+                <button id="searchBtn" class="btn btn-success">Search</button>
+            </div>
+            <div class="col-auto">
+                <a href="@Url.Action("AddEnrollment", "Enrollment")" class="btn btn-success"><i class="fas fa-plus"></i> Enroll</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Enrollment ID</th>
+            <th scope="col">Student</th>
+            <th scope="col">Course </th>
+            <th scope="col">Enrollment Date</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var enrollment in sqldata.listEnrollment)
+        {
+            <tr>
+                <td>@enrollment.EnrollmentId</td>
+                <td>@enrollment.StudentName</td>
+                <td>@enrollment.CourseName</td>
+                <td>@enrollment.EnrollmentDate.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        <a href="@Url.Action("GetEnrollmentById", "Enrollment", new { id = enrollment.EnrollmentId })" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#del-@enrollment.EnrollmentId">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+            </tr>
+            <!-- Modal -->
+            <div class="modal fade" id="del-@enrollment.EnrollmentId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <dl class="dl-horizontal">
+                                <dt>Enrollment Id:</dt>
+                                <dd>@enrollment.EnrollmentId</dd>
+                                <dt>Student Name:</dt>
+                                <dd>@enrollment.StudentName</dd>
+                               
+                            </dl>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <a href="@Url.Action("DeleteConfirmed", "enrollment", new { id = enrollment.EnrollmentId })" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </tbody>
+</table>

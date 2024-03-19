@@ -1,0 +1,97 @@
+﻿@using DatabaseCW.Models;
+@{
+    ViewData["Title"] = "Progress Page";
+    Layout = "../Shared/_DashboardLayout";
+
+}
+<!-- Bootstrap modal -->
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="border: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="errorModalLabel">Error</h4>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<main class="mt-1 pt-3">
+    <div class="container">
+        <!-- Post Element -->
+        <div class="card mb-3 wow fadeIn">
+            <div class="card-header font-weight-bold">
+                Progress Form
+            </div>
+            <div class="card-body">
+                <form method="get" action="@Url.Action("CompleteAddProgress", "Progress")" onsubmit="return validateForm()">
+                    <label for="replyFormStudentId">
+                        Student
+                    </label>
+                    <select name="StudentId" id="studentId" class="form-control">
+                        <option value="">Select Student</option>
+                        @{
+                            var enrollments = ViewBag.Student.listEnrollment as List<EnrollmentModel>;
+                            if (enrollments != null)
+                            {
+                                var uniqueStudents = enrollments
+                                .GroupBy(e => e.StudentId)
+                                .Select(g => g.First())
+                                .ToList();
+                                foreach (var student in uniqueStudents)
+                                {
+                                    <option value="@student.StudentId">@student.StudentName</option>
+                                }
+                            }
+                        }
+                    </select>
+                    <div class="col-auto mt-4">
+                        <button id="searchBtn" type="submit" class="btn btn-success">Go</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- End of entire Post element -->
+        <a href="@Url.Action("ListProgress", "Progress")" class="btn btn-primary"> <i class="fas fa-arrow-left ml-1"></i> Back</a>
+
+    </div>
+    <!-- End of Container -->
+</main>
+
+<script>
+    // Function to handle form validation
+    function validateForm() {
+        var studentId = document.getElementById("studentId");
+        var studentValue = studentId.value.trim();
+        if (studentValue === "") {
+            $("#errorModal").modal("show");
+            document.getElementById("errorMessage").innerText = "Please select a student.";
+            studentId.classList.add("border-danger"); // Add border color class
+            return false; // Prevent form submission
+        } else {
+            return true; // Allow form submission
+        }
+    }
+
+    // Function to handle modal close
+    function closeModal() {
+        $("#errorModal").modal("hide");
+    }
+
+    // Event listener to handle field change
+    document.getElementById("studentId").addEventListener("change", function () {
+        var studentId = document.getElementById("studentId");
+        var studentValue = studentId.value.trim();
+        if (studentValue !== "") {
+            studentId.classList.remove("border-danger"); // Remove border color class
+        }
+    });
+</script>
+
+
